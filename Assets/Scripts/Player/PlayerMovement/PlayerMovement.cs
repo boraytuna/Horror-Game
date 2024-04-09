@@ -1,15 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.Experimental.GlobalIllumination;
 
 // This script manages first person player movement
 public class PlayerMovement : MonoBehaviour
-{
+{   
     [Header("Movement")]
-    public float moveSpeed;
+    public float runSpeed; 
     public float walkSpeed;
     public float groundDrag;
 
@@ -25,6 +20,12 @@ public class PlayerMovement : MonoBehaviour
     public bool isCrouching = false;
     private float standingHeight;
     private float standingCameraHeight;
+
+    [Header("Stamina")]
+    public float maxStamina = 100f;
+    public float stamina;
+    public float staminaDepletionRate; // Stamina depleted per second while running
+    public float staminaRegenerationRate; // Stamina regenerated per second when not running
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -51,9 +52,10 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         readyToJump = true;
-        activeMoveSpeed = moveSpeed;
+        activeMoveSpeed = walkSpeed; 
         standingHeight = playerHeight; 
         standingCameraHeight = cameraHolder.transform.localPosition.y;
+        stamina = maxStamina;
     }
 
     private void Update() 
@@ -74,7 +76,8 @@ public class PlayerMovement : MonoBehaviour
 
         // call the functions
         CheckCrouch(); 
-        Walk(); 
+        Walk();
+        RegenerateStamina();
     } 
 
     private void FixedUpdate() 
@@ -100,16 +103,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void Walk()
     {
-        // Modify here to adjust the speed based on crouching state
         if(isCrouching)
         {
-            // If the player is crouching, use crouchSpeed
             activeMoveSpeed = crouchSpeed;
         }
         else
         {
-            // if walkKey is pressed use walk speed, otherwise use move speed
-            activeMoveSpeed = Input.GetKey(walkKey) ? walkSpeed : moveSpeed;
+            // Check if the player is trying to run and if they have enough stamina
+            if(Input.GetKey(walkKey) && stamina > 0)
+            {
+                activeMoveSpeed = runSpeed;
+                // Deplete stamina
+                stamina -= staminaDepletionRate * Time.deltaTime;
+                stamina = Mathf.Clamp(stamina, 0, maxStamina); // Ensure stamina stays within bounds
+            }
+            else
+            {
+                // Use walk speed if not running or out of stamina
+                activeMoveSpeed = walkSpeed;
+            }
         }
     }
 
@@ -162,9 +174,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         // limit player's velocity
-        if(flatVel.magnitude > moveSpeed)
+        if(flatVel.magnitude > runSpeed)
         {
-            Vector3 limitedVel = flatVel. normalized * moveSpeed;
+            Vector3 limitedVel = flatVel. normalized * runSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
@@ -183,6 +195,16 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(moveDirection.normalized * activeMoveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
         
+    }
+
+    private void RegenerateStamina()
+    {
+        // Only regenerate stamina if not running or stamina is not full
+        if(!Input.GetKey(walkKey) && stamina < maxStamina)
+        {
+            stamina += staminaRegenerationRate * Time.deltaTime;
+            stamina = Mathf.Clamp(stamina, 0, maxStamina); // Ensure stamina stays within bounds
+        }
     }
 
 }

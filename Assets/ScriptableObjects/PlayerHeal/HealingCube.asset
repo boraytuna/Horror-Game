@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: HealingCube
   m_EditorClassIdentifier: 
   itemName: HealingCube
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: cb942fa20129048e5b9cdcd16ea188e5, type: 3}
+  isDefaultItem: 0
+  showInInventory: 1
   healAmount: 20

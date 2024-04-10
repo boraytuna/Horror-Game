@@ -6,7 +6,7 @@ public class HealingItem : Item
     [Range(10, 50)]
     public int healAmount;
 
-    public override void Use(GameObject user)
+    public override void UseItem(GameObject user)
     {
         PlayerHealth playerHealth = user.GetComponent<PlayerHealth>();
         if (playerHealth != null)

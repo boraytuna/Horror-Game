@@ -544,7 +544,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 135fa8fa02e2f4ff1bc8dcf37770658a, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 217f3caa79bf84b16ad573579b8a8602, type: 2}
   m_BuildHeightMesh: 0
 --- !u!114 &657429157
 MonoBehaviour:
@@ -575,7 +575,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 2ffa01e0c97d94163be1861c9cb09054, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 424517180ce5248f1b49a45ebb06b2fd, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &705507993
 GameObject:
@@ -685,8 +685,8 @@ GameObject:
   - component: {fileID: 711753679}
   - component: {fileID: 711753676}
   - component: {fileID: 711753677}
-  - component: {fileID: 711753680}
   - component: {fileID: 711753681}
+  - component: {fileID: 711753680}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -843,13 +843,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 711753672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eac113ef148a0400d8db2a0f7be5ff18, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cb1bc33e4b3944ec9f85b3070ceb3a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionDistance: 3
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 512
+  items: []
 --- !u!114 &711753681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,10 +856,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 711753672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cb1bc33e4b3944ec9f85b3070ceb3a0, type: 3}
+  m_Script: {fileID: 11500000, guid: eac113ef148a0400d8db2a0f7be5ff18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  interactionDistance: 3
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &739636821
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,6 +924,7 @@ GameObject:
   - component: {fileID: 918340955}
   - component: {fileID: 918340954}
   - component: {fileID: 918340953}
+  - component: {fileID: 918340957}
   m_Layer: 9
   m_Name: HealingPotion
   m_TagString: Untagged
@@ -959,8 +960,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: afdd492f3eeff48a9975f742c22918de, type: 2}
-  textMeshProPrefab: {fileID: 8599681942555266047}
-  textOffset: {x: 0, y: 1.5, z: 0}
 --- !u!65 &918340954
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1032,6 +1031,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 918340951}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &918340957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918340951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bea68bdac07346b8978a7b9e2dfd01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshProPrefab: {fileID: 8599681942555266047}
+  textOffset: {x: 0, y: -1, z: 0}
+  playerTransform: {fileID: 711753675}
+  visibilityRange: 3
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,6 +1232,7 @@ GameObject:
   - component: {fileID: 1469092464}
   - component: {fileID: 1469092463}
   - component: {fileID: 1469092462}
+  - component: {fileID: 1469092466}
   m_Layer: 9
   m_Name: HealingFood
   m_TagString: Untagged
@@ -1252,8 +1268,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 5898305465e36411bb8a6903f2befdf0, type: 2}
-  textMeshProPrefab: {fileID: 8599681942555266047}
-  textOffset: {x: 0, y: 1.5, z: 0}
 --- !u!135 &1469092463
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1325,6 +1339,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469092460}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1469092466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469092460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bea68bdac07346b8978a7b9e2dfd01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshProPrefab: {fileID: 8599681942555266047}
+  textOffset: {x: 0, y: -1, z: 0}
+  playerTransform: {fileID: 711753675}
+  visibilityRange: 3
 --- !u!1 &1482346869
 GameObject:
   m_ObjectHideFlags: 0

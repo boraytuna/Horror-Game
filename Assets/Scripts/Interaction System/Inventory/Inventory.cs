@@ -1,30 +1,3 @@
-// using System.Collections.Generic;
-// using UnityEngine;
-
-// public class Inventory : MonoBehaviour
-// {
-//     public static Inventory instance; // Singleton instance
-
-//     public List<Item> items = new List<Item>();
-
-//     void Awake()
-//     {
-//         if (instance != null)
-//         {
-//             Debug.LogWarning("More than one instance of Inventory found!");
-//             return;
-//         }
-//         instance = this; // Assign the static instance
-//     }
-
-//     public void Add(Item itemToAdd)
-//     {
-//         items.Add(itemToAdd);
-//         Debug.Log($"Added {itemToAdd.itemName} to inventory. Total items: {items.Count}");
-//     }
-// }
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,7 +14,6 @@ public class Inventory : MonoBehaviour {
 	}
 
 	#endregion
-
 	public delegate void OnItemChanged();
 	public OnItemChanged onItemChangedCallback;
 
@@ -74,5 +46,36 @@ public class Inventory : MonoBehaviour {
 		if (onItemChangedCallback != null)
 			onItemChangedCallback.Invoke();
 	}
+
+	// Method to drop the item into the world
+		public void DropItem(Item itemToDrop)
+	{
+		if (itemToDrop != null && itemToDrop.itemPrefab != null)
+		{
+			// Get the player camera from the PlayerCamera script (assuming it's attached to the camera object)
+			Transform cameraTransform = PlayerCamera.instance.transform;
+
+			// Calculate drop position in front of the camera
+			float dropDistance = 1.0f; 
+			Vector3 dropPosition = cameraTransform.position + cameraTransform.forward * dropDistance + cameraTransform.up * -0.5f; // Slightly below the camera center
+
+			// Instantiate the item prefab at the calculated position
+			GameObject droppedItem = Instantiate(itemToDrop.itemPrefab, dropPosition, Quaternion.identity);
+
+			// Optionally add force or additional effects
+			Rigidbody itemRb = droppedItem.GetComponent<Rigidbody>();
+			if (itemRb != null)
+			{
+				itemRb.AddForce(cameraTransform.forward * 5f, ForceMode.VelocityChange); // Adds a forward force to the item
+			}
+
+			Debug.Log($"{itemToDrop.name} dropped in front of the player.");
+		}
+		else
+		{
+			Debug.Log("Item prefab is missing or not assigned.");
+		}
+	}
+
 
 }

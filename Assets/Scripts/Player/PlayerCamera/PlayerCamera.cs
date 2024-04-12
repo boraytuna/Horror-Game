@@ -10,7 +10,12 @@ public class PlayerCamera : MonoBehaviour
     public Transform orientation;
     float xRotation;
     float yRotation;
+    public static PlayerCamera instance;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     
     private void Start()
     {

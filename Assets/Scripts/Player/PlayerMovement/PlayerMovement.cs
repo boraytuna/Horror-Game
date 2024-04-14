@@ -1,10 +1,10 @@
 using UnityEngine;
+using System.Collections;
 
-// This script manages first person player movement
 public class PlayerMovement : MonoBehaviour
-{   
+{
     [Header("Movement")]
-    public float runSpeed; 
+    public float runSpeed;
     public float walkSpeed;
     public float groundDrag;
 
@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    bool readyToJump;
+    private bool readyToJump;
 
     [Header("Crouch")]
     public float crouchSpeed;
@@ -24,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Stamina")]
     public float maxStamina = 100f;
     public float stamina;
-    public float staminaDepletionRate; // Stamina depleted per second while running
-    public float staminaRegenerationRate; // Stamina regenerated per second when not running
+    public float staminaDepletionRate;
+    public float staminaRegenerationRate;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -35,52 +35,44 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatisGround;
-    bool grounded;
+    private bool grounded;
 
     [Header("Camera")]
     public GameObject cameraHolder;
-    public Transform orientation;
 
     private float activeMoveSpeed;
-    float horizontalInput;
-    float verticalInput;
-    Vector3 moveDirection;
-    Rigidbody rb;
+    private float horizontalInput;
+    private float verticalInput;
+    private Rigidbody rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         readyToJump = true;
-        activeMoveSpeed = walkSpeed; 
-        standingHeight = playerHeight; 
+        activeMoveSpeed = walkSpeed;
+        standingHeight = playerHeight;
         standingCameraHeight = cameraHolder.transform.localPosition.y;
         stamina = maxStamina;
     }
 
-    private void Update() 
+    private void Update()
     {
-        // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatisGround);
-        
-        MyInput(); 
 
-        // handle drag
-        if(grounded)
-        {   
+        MyInput();
+
+        if (grounded)
             rb.drag = groundDrag;
-        }else 
-        {
+        else
             rb.drag = 0;
-        } 
 
-        // call the functions
-        CheckCrouch(); 
+        CheckCrouch();
         Walk();
         RegenerateStamina();
-    } 
+    }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
         MovePlayer();
         SpeedControl();
@@ -91,76 +83,65 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if (Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
             Jump();
-            // Jump continuously by holding jump key
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
 
     private void Walk()
     {
-        if(isCrouching)
+        activeMoveSpeed = isCrouching ? crouchSpeed : (Input.GetKey(walkKey) && stamina > 0 ? runSpeed : walkSpeed);
+        if (Input.GetKey(walkKey) && stamina > 0 && !isCrouching)
         {
-            activeMoveSpeed = crouchSpeed;
-        }
-        else
-        {
-            // Check if the player is trying to run and if they have enough stamina
-            if(Input.GetKey(walkKey) && stamina > 0)
-            {
-                activeMoveSpeed = runSpeed;
-                // Deplete stamina
-                stamina -= staminaDepletionRate * Time.deltaTime;
-                stamina = Mathf.Clamp(stamina, 0, maxStamina); // Ensure stamina stays within bounds
-            }
-            else
-            {
-                // Use walk speed if not running or out of stamina
-                activeMoveSpeed = walkSpeed;
-            }
+            stamina -= staminaDepletionRate * Time.deltaTime;
+            stamina = Mathf.Clamp(stamina, 0, maxStamina);
         }
     }
 
     private void CheckCrouch()
     {
-        if(Input.GetKeyDown(crouchKey))
-        {
+        if (Input.GetKeyDown(crouchKey))
             StartCrouch();
-        }else if (Input.GetKeyUp(crouchKey))
-        {
+        else if (Input.GetKeyUp(crouchKey))
             EndCrouch();
-        }  
     }
 
     private void StartCrouch()
     {
         isCrouching = true;
-        // Adjust the player's collider
         GetComponentInChildren<CapsuleCollider>().height = crouchHeight;
-    
-        // Lower the camera
-        cameraHolder.transform.localPosition = new Vector3(0, crouchHeight, 0);
+        StartCoroutine(AdjustCameraHeight(crouchHeight));
     }
 
     private void EndCrouch()
     {
         isCrouching = false;
-        // Reset the player's collider
         GetComponentInChildren<CapsuleCollider>().height = standingHeight;
-        
-        // Reset the camera position
-        cameraHolder.transform.localPosition = new Vector3(0, standingCameraHeight, 0);
+        StartCoroutine(AdjustCameraHeight(standingCameraHeight));
+    }
+
+    private IEnumerator AdjustCameraHeight(float targetHeight)
+    {
+        float currentHeight = cameraHolder.transform.localPosition.y;
+        float timeToCrouch = 0.25f;
+        float elapsed = 0f;
+
+        while (elapsed < timeToCrouch)
+        {
+            cameraHolder.transform.localPosition = new Vector3(0, Mathf.Lerp(currentHeight, targetHeight, elapsed / timeToCrouch), 0);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cameraHolder.transform.localPosition = new Vector3(0, targetHeight, 0);
     }
 
     private void Jump()
     {
-        // reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 
@@ -172,39 +153,37 @@ public class PlayerMovement : MonoBehaviour
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        // limit player's velocity
-        if(flatVel.magnitude > runSpeed)
+        if (flatVel.magnitude > runSpeed)
         {
-            Vector3 limitedVel = flatVel. normalized * runSpeed;
+            Vector3 limitedVel = flatVel.normalized * runSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
 
-        private void MovePlayer()
+    private void MovePlayer()
     {
-        // calculate movement direction
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-        // on ground
-        if(grounded)
-        {
-            rb.AddForce(moveDirection.normalized * activeMoveSpeed * 10f, ForceMode.Force);
-        }else if(!grounded) // on air 
-        {
-            rb.AddForce(moveDirection.normalized * activeMoveSpeed * 10f * airMultiplier, ForceMode.Force);
-        }
-        
+        Vector3 forward = cameraHolder.transform.forward;
+        Vector3 right = cameraHolder.transform.right;
+        forward.y = 0; // Ensure the movement is only horizontal
+        right.y = 0;
+        Vector3 moveDirection = forward * verticalInput + right * horizontalInput;
+        float multiplier = grounded ? 1.0f : airMultiplier;
+        rb.AddForce(moveDirection.normalized * activeMoveSpeed * 10f * multiplier, ForceMode.Force);
     }
 
     private void RegenerateStamina()
     {
-        // Only regenerate stamina if not running or stamina is not full
-        if(!Input.GetKey(walkKey) && stamina < maxStamina)
+        if (!Input.GetKey(walkKey) && stamina < maxStamina)
         {
             stamina += staminaRegenerationRate * Time.deltaTime;
-            stamina = Mathf.Clamp(stamina, 0, maxStamina); // Ensure stamina stays within bounds
+            stamina = Mathf.Clamp(stamina, 0, maxStamina);
         }
     }
 
+    public void BoostStamina(int amount)
+    {
+        stamina += amount;
+        stamina = Mathf.Clamp(stamina, 0, maxStamina);
+        Debug.Log($"Stamina increased by {amount}. Current stamina: {stamina}");
+    }
 }

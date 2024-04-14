@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8159698170059073102}
   - component: {fileID: 7904161454111433195}
   - component: {fileID: 7542571449486465382}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HealingDrink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,6 +163,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshProPrefab: {fileID: 8999752164886965608, guid: d55e6ebe50fd64b7cb6a42cfdfcab1e9, type: 3}
-  textOffset: {x: 0, y: 1, z: 0}
+  textOffset: {x: 0, y: 1.5, z: 0}
   playerTransform: {fileID: 0}
-  visibilityRange: 0
+  visibilityRange: 5

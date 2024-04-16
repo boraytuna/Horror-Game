@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewHealingItem", menuName = "Inventory/Item/Healing Item")]
+[CreateAssetMenu(fileName = "NewHealingItem", menuName = "Inventory/Item/PlayerBoost/Healing Item")]
 public class HealingItem : Item
 {
     [Range(10, 50)]

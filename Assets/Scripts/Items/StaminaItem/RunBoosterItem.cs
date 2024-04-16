@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RunBoosterItem", menuName = "Inventory/Item/RunBoosterItem")]
+[CreateAssetMenu(fileName = "RunBoosterItem", menuName = "Inventory/Item/PlayerBoost/RunBoosterItem")]
 public class RunBoosterItem : Item
 {
     [Range(10, 50)]

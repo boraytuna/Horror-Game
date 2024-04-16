@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour {
 	#endregion
 	public delegate void OnItemChanged();
 	public OnItemChanged onItemChangedCallback;
+	
 
 	public int space;	// Amount of item spaces
 

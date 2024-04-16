@@ -6,13 +6,12 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventoryUI;
     Inventory inventory;
     InventorySlot[] slots;
-
     public static bool isUIActive = false;  // Static flag to check UI status
 
     void Start()
     {
         inventory = Inventory.instance;
-        inventory.onItemChangedCallback += UpdateUI;
+        inventory.onItemChangedCallback += UpdateUI; // Delegate subscribes to the update method
         inventoryUI.SetActive(false);
 
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
@@ -43,7 +42,7 @@ public class InventoryUI : MonoBehaviour
     }
 
     // This function updates the images in inventory UI
-    void UpdateUI()
+    public void UpdateUI()
     {
         Debug.Log("Updating UI. Total items: " + inventory.items.Count);
         for (int i = 0; i < slots.Length; i++)

@@ -3,9 +3,11 @@ using UnityEngine;
 public class Flashlight : MonoBehaviour
 {
     private Light flashlight;
-    [SerializeField] public float maxBatteryLife = 600; // Default value; can be changed in Unity Editor
+    [SerializeField] public float maxBatteryLife = 600;  // Default value; can be changed in Unity Editor
     public float currentBatteryLife;
     public bool isActive = false;
+
+    public Inventory inventory;  // Reference to the Inventory component
 
     void Start()
     {
@@ -19,6 +21,7 @@ public class Flashlight : MonoBehaviour
         if (!gameObject.activeInHierarchy) return; // Only operate if flashlight is active in hierarchy
 
         CheckToggleInput(); // Check for toggle input
+        CheckRechargeInput();  // Check for recharge input
 
         if (isActive)
         {
@@ -26,7 +29,38 @@ public class Flashlight : MonoBehaviour
         }
     }
 
-    // Public method to recharge the flashlight
+    // Method to check and handle recharge input
+    private void CheckRechargeInput()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            TryRechargeFlashlight();
+        }
+    }
+
+    private void TryRechargeFlashlight()
+    {
+        if (inventory == null)
+        {
+            Debug.LogError("Inventory is not assigned to the flashlight.");
+            return;
+        }
+
+        foreach (Item item in inventory.items)
+        {
+            if (item != null && item is Battery)
+            {
+                bool wasUsed = ((Battery)item).Use(gameObject); // Attempt to use the battery
+                if (wasUsed)
+                {
+                    Debug.Log("Flashlight recharged from inventory.");
+                    inventory.Remove(item); // Remove the battery from the inventory
+                    break; // Stop after successfully using one battery
+                }
+            }
+        }
+    }
+
     public bool Recharge(float amount)
     {
         if (currentBatteryLife < maxBatteryLife)
@@ -37,23 +71,20 @@ public class Flashlight : MonoBehaviour
                 currentBatteryLife = maxBatteryLife;
             }
             Debug.Log($"Flashlight recharged. Current battery life: {currentBatteryLife}");
-            return true;
+            return true; // Indicates the recharge was successful and the battery was used
         }
         Debug.Log("Flashlight is already fully charged.");
-        return false;
+        return false; // Indicates no recharge was needed, battery not used
     }
 
-    // Method to check and handle toggle input
     private void CheckToggleInput()
     {
-        // Check if the inventory UI is active; if it is, ignore mouse clicks
         if (!InventoryUI.isUIActive && Input.GetMouseButtonDown(0))
         {
             ToggleFlashlight();
         }
     }
 
-    // Method to toggle the flashlight on or off
     private void ToggleFlashlight()
     {
         isActive = !isActive;
@@ -76,7 +107,7 @@ public class Flashlight : MonoBehaviour
     private void FlashLightDie()
     {
         flashlight.enabled = false;
-        isActive = false; // Ensure the flashlight can no longer be toggled on
+        isActive = false;  // Ensure the flashlight can no longer be toggled on
         Debug.Log("Flashlight battery dead.");
     }
 }

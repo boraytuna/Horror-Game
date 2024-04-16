@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Battery", menuName = "Inventory/Battery")]
+[CreateAssetMenu(fileName = "Battery", menuName = "Inventory/Item/Flashligh/Battery")]
 public class Battery : Item
 {
     public float chargeAmount;  // The amount of battery life this battery adds

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18812016, g: 0.19100335, b: 0.19098622, a: 1}
+  m_IndirectSpecularColor: {r: 0.18810809, g: 0.19099194, b: 0.1909791, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -748,7 +748,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons: []
   keys: 3100000032000000
-  switchTime: 1
+  reloadKey: 114
+  switchTime: 0.5
 --- !u!1 &235303937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,7 +2705,7 @@ GameObject:
   - component: {fileID: 930305499}
   - component: {fileID: 930305498}
   - component: {fileID: 930305497}
-  - component: {fileID: 930305496}
+  - component: {fileID: 930305500}
   m_Layer: 9
   m_Name: Bullets (2)
   m_TagString: Untagged
@@ -2733,22 +2734,6 @@ Transform:
   m_Father: {fileID: 561297484}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &930305496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 930305494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bea68bdac07346b8978a7b9e2dfd01c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textMeshProPrefab: {fileID: 8999752164886965608, guid: 7db13fd2675de49539ef26884b836517, type: 3}
-  textOffset: {x: 0, y: 0.1, z: 0}
-  playerTransform: {fileID: 711753675}
-  visibilityRange: 3
 --- !u!114 &930305497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2810,6 +2795,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &930305500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930305494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bea68bdac07346b8978a7b9e2dfd01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshProPrefab: {fileID: 8999752164886965608, guid: 7db13fd2675de49539ef26884b836517, type: 3}
+  textOffset: {x: 0, y: 0.2, z: 0}
+  playerTransform: {fileID: 711753675}
+  visibilityRange: 3
 --- !u!1001 &932451262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4077,7 +4078,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278359455}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0266, z: 0.1251}
+  m_LocalPosition: {x: -0.006, y: 0.0266, z: 0.138}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6279,22 +6280,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &400304711534265284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5128630743412886957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bea68bdac07346b8978a7b9e2dfd01c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textMeshProPrefab: {fileID: 8999752164886965608, guid: 7db13fd2675de49539ef26884b836517, type: 3}
-  textOffset: {x: 0, y: 0.1, z: 0}
-  playerTransform: {fileID: 711753675}
-  visibilityRange: 3
 --- !u!33 &463984102413944965
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7255,6 +7240,7 @@ MonoBehaviour:
   maxBatteryLife: 30
   currentBatteryLife: 0
   isActive: 0
+  inventory: {fileID: 711753680}
 --- !u!33 &530642691814108532
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7424,22 +7410,6 @@ Transform:
   m_Father: {fileID: 1335197785}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &618001777257140753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5346107186296085624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bea68bdac07346b8978a7b9e2dfd01c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textMeshProPrefab: {fileID: 8999752164886965608, guid: 7db13fd2675de49539ef26884b836517, type: 3}
-  textOffset: {x: 0, y: 0.1, z: 0}
-  playerTransform: {fileID: 711753675}
-  visibilityRange: 3
 --- !u!33 &662553266175398552
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -10405,7 +10375,7 @@ GameObject:
   - component: {fileID: 2605867284997399632}
   - component: {fileID: 2318614171459591981}
   - component: {fileID: 9092112212848136705}
-  - component: {fileID: 400304711534265284}
+  - component: {fileID: 9092112212848136706}
   m_Layer: 9
   m_Name: Bullets (1)
   m_TagString: Untagged
@@ -10433,7 +10403,7 @@ GameObject:
   - component: {fileID: 2969094987612321157}
   - component: {fileID: 3256350031738539768}
   - component: {fileID: 8300157986951611348}
-  - component: {fileID: 618001777257140753}
+  - component: {fileID: 8300157986951611349}
   m_Layer: 9
   m_Name: Bullets
   m_TagString: Untagged
@@ -12174,6 +12144,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 9fbb279a60e934dd681da5dad286dc6e, type: 2}
+--- !u!114 &8300157986951611349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5346107186296085624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bea68bdac07346b8978a7b9e2dfd01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshProPrefab: {fileID: 8999752164886965608, guid: 7db13fd2675de49539ef26884b836517, type: 3}
+  textOffset: {x: 0, y: 0.2, z: 0}
+  playerTransform: {fileID: 711753675}
+  visibilityRange: 3
 --- !u!4 &8328711970120565467
 Transform:
   m_ObjectHideFlags: 0
@@ -12616,6 +12602,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 9fbb279a60e934dd681da5dad286dc6e, type: 2}
+--- !u!114 &9092112212848136706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5128630743412886957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bea68bdac07346b8978a7b9e2dfd01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshProPrefab: {fileID: 8999752164886965608, guid: 7db13fd2675de49539ef26884b836517, type: 3}
+  textOffset: {x: 0, y: 0.2, z: 0}
+  playerTransform: {fileID: 711753675}
+  visibilityRange: 3
 --- !u!23 &9102383014945130959
 MeshRenderer:
   m_ObjectHideFlags: 0

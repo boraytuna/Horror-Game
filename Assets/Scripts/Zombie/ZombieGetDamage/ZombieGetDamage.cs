@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ZombieGetDamage : MonoBehaviour, IDamagable
@@ -10,6 +8,7 @@ public class ZombieGetDamage : MonoBehaviour, IDamagable
 
     private void Start()
     {
+        GameManager.Instance.RegisterZombie();
         health = maxHealth;
     }
     public void Damage(float damage)
@@ -25,7 +24,17 @@ public class ZombieGetDamage : MonoBehaviour, IDamagable
     public void zombieDie()
     {
         Debug.Log("Zombie Killed");
-
         Destroy(gameObject);
+        GameManager.Instance.ZombieKilled(); // Notify GameManager
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("MeleeAttack")) 
+        {
+            Debug.Log("Hit by Melee Attack");
+            float damageAmount = 50; 
+            Damage(damageAmount); 
+        }
     }
 }

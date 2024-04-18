@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KnifeAttack : MonoBehaviour
@@ -15,9 +13,13 @@ public class KnifeAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
-            anim.SetBool("attacking", true);
-        if(Input.GetButtonUp("Fire1"))
-            anim.SetBool("attacking", false);
+        // Check if the inventory UI is not active before processing attack
+        if (!InventoryUI.isUIActive)
+        {
+            if(Input.GetButtonDown("Fire1"))
+                anim.SetBool("attacking", true);
+            if(Input.GetButtonUp("Fire1"))
+                anim.SetBool("attacking", false);
+        }
     }
 }

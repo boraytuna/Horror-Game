@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
                 EnableGameplaySystems(false);
                 break;
             case GameState.GameOver:
+                EnableGameplaySystems(false);
                 SceneManager.LoadScene("GameOverScene");
                 break;
         }
@@ -81,7 +83,7 @@ public class GameManager : MonoBehaviour
         if (totalZombiesAlive <= 0)
         {
             // All zombies are dead, handle level completion
-            Debug.Log("Level cleared!");
+            Debug.Log("All Zombies Are Killed!");
         }
     }
 

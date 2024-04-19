@@ -14,6 +14,7 @@ public class ItemManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 

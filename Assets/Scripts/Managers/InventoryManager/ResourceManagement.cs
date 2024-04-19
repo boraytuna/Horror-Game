@@ -17,6 +17,7 @@ public class ResourceManagement : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 

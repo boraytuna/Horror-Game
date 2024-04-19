@@ -8,9 +8,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private Transform cam;
     [SerializeField] private Transform muzzle;
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private AudioClip shootSound;  // Assign this in the Unity Editor
-    [SerializeField] private AudioSource audioSource;  // Assign this in the Unity Editor
-    
+
     [Header("Aiming")]
     [SerializeField] private Vector3 aimPositionOffset;  // Position offset when aiming
     [SerializeField] private float aimFOV = 40f;  // Field of view when aiming
@@ -108,12 +106,7 @@ public class Gun : MonoBehaviour
 
     private void OnGunShot()
     {
-        // Play the gunshot sound
-        if (audioSource != null && shootSound != null)
-        {
-            audioSource.PlayOneShot(shootSound);
-        }
-        // Optionally, play animations or other effects
+       FindAnyObjectByType<AudioManager>().Play("RevolverGunShot");
     }
 
     public void SetActive(bool active)

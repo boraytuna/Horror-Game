@@ -24,96 +24,73 @@ public class PlayerManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-
-        SetupPlayerComponents();
-    }
-
-    private void SetupPlayerComponents()
-    {
-        // Attempt to get the PlayerHealth component and log an error if it is not found
-        playerHealth = GetComponent<PlayerHealth>();
-        if (playerHealth == null)
-            Debug.LogError("PlayerHealth component not found on " + gameObject.name);
-
-        // Attempt to get the PlayerMovement component and log an error if it is not found
-        playerMovement = GetComponent<PlayerMovement>();
-        if (playerMovement == null)
-            Debug.LogError("PlayerMovement component not found on " + gameObject.name);
-
-        // Attempt to get the PlayerShoot component and log an error if it is not found
-        playerShoot = GetComponent<PlayerShoot>();
-        if (playerShoot == null)
-            Debug.LogError("PlayerShoot component not found on " + gameObject.name);
-
-        // Attempt to get the Gun component and log an error if it is not found
-        playerGun = GetComponent<Gun>();
-        if (playerGun == null)
-            Debug.LogError("Gun component not found on " + gameObject.name);
-
-        // Attempt to get the KnifeAttack component and log an error if it is not found
-        playerKnifeAttack = GetComponent<KnifeAttack>();
-        if (playerKnifeAttack == null)
-            Debug.LogError("KnifeAttack component not found on " + gameObject.name);
-
-        // Attempt to get the Inventory component and log an error if it is not found
-        playerInventory = GetComponent<Inventory>();
-        if (playerInventory == null)
-            Debug.LogError("Inventory component not found on " + gameObject.name);
-
-        // Attempt to get the Flashlight component and log an error if it is not found
-        playerFlashlight = GetComponent<Flashlight>();
-        if (playerFlashlight == null)
-            Debug.LogError("Flashlight component not found on " + gameObject.name);
-
-        // If any component is missing, return early to avoid further null references
-        if (playerHealth == null || playerMovement == null || playerShoot == null ||
-            playerGun == null || playerKnifeAttack == null || playerInventory == null ||
-            playerFlashlight == null)
-        {
-            Debug.LogError("SetupPlayerComponents failed: One or more components are missing.");
             return;
         }
 
-        // Subscribe to the playerHealth's death event
-        playerHealth.onDeath += HandlePlayerDeath;
+        //SetupPlayerComponents();
     }
 
-    private void HandlePlayerDeath()
-    {
-        IsAlive = false;
-        DisablePlayerControls();
-        GameManager.Instance.PlayerDied();
-        Debug.Log("Player has died.");
-    }
+    // private void SetupPlayerComponents()
+    // {
+    //     playerHealth = GetComponent<PlayerHealth>();
+    //     playerMovement = GetComponent<PlayerMovement>();
+    //     playerShoot = GetComponent<PlayerShoot>();
+    //     playerGun = GetComponent<Gun>();
+    //     playerKnifeAttack = GetComponent<KnifeAttack>();
+    //     playerInventory = GetComponent<Inventory>();
+    //     playerFlashlight = GetComponent<Flashlight>();
 
-    private void DisablePlayerControls()
-    {
-        playerMovement.enabled = false;
-        playerShoot.enabled = false;
-        if (playerGun != null) playerGun.enabled = false;
-        if (playerKnifeAttack != null) playerKnifeAttack.enabled = false;
-    }
+    //     // Subscribe to player health changes for UI update
+    //     if (playerHealth != null)
+    //     {
+    //         playerHealth.onHealthChanged += UIManager.Instance.UpdateHealthUI;
+    //     }
 
-    public void HealPlayer(float amount)
-    {
-        if (playerHealth != null)
-        {
-            playerHealth.Heal(amount);
-        }
-    }
+    //     // Other initializations or error checks can be added here
+    // }
 
-    public void DamagePlayer(float damage)
-    {
-        if (playerHealth != null)
-        {
-            playerHealth.TakeDamage(damage);
-        }
-    }
+    // private void HandlePlayerDeath()
+    // {
+    //     IsAlive = false;
+    //     DisablePlayerControls();
+    //     GameManager.Instance.PlayerDied();
+    //     Debug.Log("Player has died.");
+    // }
 
-    void Update()
-    {
-        if (!IsAlive) return;
+    // private void DisablePlayerControls()
+    // {
+    //     playerMovement.enabled = false;
+    //     playerShoot.enabled = false;
+    //     if (playerGun != null) playerGun.enabled = false;
+    //     if (playerKnifeAttack != null) playerKnifeAttack.enabled = false;
+    // }
 
-    }
+    // public void HealPlayer(float amount)
+    // {
+    //     if (playerHealth != null)
+    //     {
+    //         playerHealth.Heal(amount);
+    //         UIManager.Instance.UpdateHealthUI(playerHealth.CurrentHealth);
+    //     }
+    // }
+
+    // public void DamagePlayer(float damage)
+    // {
+    //     if (playerHealth != null)
+    //     {
+    //         playerHealth.TakeDamage(damage);
+    //         UIManager.Instance.UpdateHealthUI(playerHealth.CurrentHealth);
+    //     }
+    // }
+
+    // void Update()
+    // {
+    //     if (!IsAlive) return;
+
+    //     // Update flashlight UI if needed
+    //     if (playerFlashlight != null)
+    //     {
+    //         UIManager.Instance.UpdateBatteryUI(playerFlashlight.CurrentBatteryLife);
+    //     }
+    // }
 }

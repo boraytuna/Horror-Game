@@ -21,6 +21,7 @@ public class EquipmentManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         int numSlots = System.Enum.GetNames(typeof(EquipmentSlot)).Length;

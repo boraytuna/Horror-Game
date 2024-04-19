@@ -18,6 +18,7 @@ public class InventoryManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 

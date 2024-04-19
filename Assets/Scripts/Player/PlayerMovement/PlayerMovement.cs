@@ -45,6 +45,10 @@ public class PlayerMovement : MonoBehaviour
     private float verticalInput;
     private Rigidbody rb;
 
+    private bool isRunningSoundPlaying = false;
+    private bool isWalkingSoundPlaying = false;
+
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -91,13 +95,74 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // private void Walk()
+    // {
+    //     activeMoveSpeed = isCrouching ? crouchSpeed : (Input.GetKey(walkKey) && stamina > 0 ? runSpeed : walkSpeed);
+    //     if (Input.GetKey(walkKey) && stamina > 0 && !isCrouching)
+    //     {
+    //         stamina -= staminaDepletionRate * Time.deltaTime;
+    //         stamina = Mathf.Clamp(stamina, 0, maxStamina);
+    //     }
+    // }
+
     private void Walk()
     {
+        float speed = rb.velocity.magnitude;
+        bool isMoving = speed > 0.1f; 
+
         activeMoveSpeed = isCrouching ? crouchSpeed : (Input.GetKey(walkKey) && stamina > 0 ? runSpeed : walkSpeed);
+
+        if(isMoving)
+        {
+            if (activeMoveSpeed == runSpeed)
+            {
+                if (!isRunningSoundPlaying)
+                {
+                    FindAnyObjectByType<AudioManager>().Stop("PlayerWalking"); // Stop walking sound if it's playing
+                    FindAnyObjectByType<AudioManager>().Play("PlayerRunning");
+                    isRunningSoundPlaying = true;
+                    isWalkingSoundPlaying = false;
+                }
+            }
+            else if (activeMoveSpeed == walkSpeed || activeMoveSpeed == crouchSpeed)
+            {
+                if (!isWalkingSoundPlaying)
+                {
+                    FindAnyObjectByType<AudioManager>().Stop("PlayerRunning");  // Stop running sound if it's playing
+                    FindAnyObjectByType<AudioManager>().Play("PlayerWalking");
+                    isWalkingSoundPlaying = true;
+                    isRunningSoundPlaying = false;
+                }
+            }
+            else
+            {
+                StopMovementSounds();
+            }
+        }
+        else
+        {
+            StopMovementSounds();
+        }
+        
+
         if (Input.GetKey(walkKey) && stamina > 0 && !isCrouching)
         {
             stamina -= staminaDepletionRate * Time.deltaTime;
             stamina = Mathf.Clamp(stamina, 0, maxStamina);
+        }
+    }
+
+    private void StopMovementSounds()
+    {
+        if (isRunningSoundPlaying)
+        {
+            FindAnyObjectByType<AudioManager>().Stop("PlayerRunning"); 
+            isRunningSoundPlaying = false;
+        }
+        if (isWalkingSoundPlaying)
+        {
+            FindAnyObjectByType<AudioManager>().Stop("PlayerWalking");
+            isWalkingSoundPlaying = false;
         }
     }
 

@@ -2020,7 +2020,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.2
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -5528,6 +5528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ec94f4176a9403a92f8f8233e0fae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAttacking: 0
 --- !u!1 &1824821894
 GameObject:
   m_ObjectHideFlags: 0
@@ -12592,7 +12593,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 0
+  m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -12785,6 +12786,13 @@ MonoBehaviour:
     loop: 0
     clip: {fileID: 8300000, guid: 313398fc9a66d4470807052f2a97f60d, type: 3}
     volume: 0.2
+    pitch: 0.99
+    source: {fileID: 0}
+  - name: PlayerJumping
+    playOnAwake: 0
+    loop: 0
+    clip: {fileID: 8300000, guid: caebd95f5f1634cedbbc0fe3e122aa78, type: 3}
+    volume: 0.4
     pitch: 0.99
     source: {fileID: 0}
 --- !u!4 &8923974684007365969

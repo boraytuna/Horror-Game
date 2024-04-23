@@ -95,16 +95,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // private void Walk()
-    // {
-    //     activeMoveSpeed = isCrouching ? crouchSpeed : (Input.GetKey(walkKey) && stamina > 0 ? runSpeed : walkSpeed);
-    //     if (Input.GetKey(walkKey) && stamina > 0 && !isCrouching)
-    //     {
-    //         stamina -= staminaDepletionRate * Time.deltaTime;
-    //         stamina = Mathf.Clamp(stamina, 0, maxStamina);
-    //     }
-    // }
-
     private void Walk()
     {
         float speed = rb.velocity.magnitude;
@@ -156,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isRunningSoundPlaying)
         {
-            FindAnyObjectByType<AudioManager>().Stop("PlayerRunning"); 
+            FindAnyObjectByType<AudioManager>().Stop("PlayerRunning");
             isRunningSoundPlaying = false;
         }
         if (isWalkingSoundPlaying)
@@ -204,8 +194,21 @@ public class PlayerMovement : MonoBehaviour
         cameraHolder.transform.localPosition = new Vector3(0, targetHeight, 0);
     }
 
+    // private void Jump()
+    // {
+    //     rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+    //     rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+    // }
+
     private void Jump()
     {
+        // Stop all movement sounds immediately when jumping
+        StopMovementSounds();
+
+        // Play the jumping sound
+        FindAnyObjectByType<AudioManager>().Play("PlayerJumping"); 
+
+        // Apply the jump physics
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
